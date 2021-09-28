@@ -3,10 +3,10 @@ package top.kikt.ijkplayer
 /// create 2019/3/7 by cai
 
 
-import io.flutter.plugin.common.PluginRegistry
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import java.util.*
 
-class IjkManager(private val registrar: PluginRegistry.Registrar) {
+class IjkManager(private val registrar: FlutterPlugin.FlutterPluginBinding) {
     private val ijkList = ArrayList<Ijk>()
 
     fun create(options: Map<String, Any>): Ijk {

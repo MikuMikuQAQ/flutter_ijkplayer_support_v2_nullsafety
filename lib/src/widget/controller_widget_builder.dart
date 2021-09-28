@@ -273,7 +273,8 @@ class DefaultIJKControllerWidgetState extends State<DefaultIJKControllerWidget>
       color: Colors.white,
       fontWeight: FontWeight.normal,
     );
-    var mergedTextStyle = theme.body2.merge(style);
+    // var mergedTextStyle = theme.body2.merge(style);
+    var mergedTextStyle = theme.bodyText2.merge(style);
     return Container(
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.5),

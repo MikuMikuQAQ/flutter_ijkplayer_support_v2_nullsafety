@@ -1,16 +1,16 @@
 package top.kikt.ijkplayer
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.PluginRegistry
 import tv.danmaku.ijk.media.player.IMediaPlayer
 
-class NotifyChannel(val registry: PluginRegistry.Registrar, val textureId: Long, val ijk: Ijk) {
+class NotifyChannel(val registry: FlutterPlugin.FlutterPluginBinding, val textureId: Long, val ijk: Ijk) {
 
     private val player
         get() = ijk.mediaPlayer
 
     private val channel = MethodChannel(
-            registry.messenger(),
+            registry.binaryMessenger,
             "top.kikt/ijkplayer/event/$textureId"
     )
 //    private val channel = Temp()

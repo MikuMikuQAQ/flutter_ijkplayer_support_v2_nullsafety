@@ -8,8 +8,8 @@ import android.graphics.Bitmap
 import android.media.AudioManager
 import android.net.Uri
 import android.util.Base64
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.PluginRegistry
 import top.kikt.ijkplayer.entity.IjkOption
 import top.kikt.ijkplayer.entity.Info
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
@@ -17,16 +17,16 @@ import tv.danmaku.ijk.media.player.TextureMediaPlayer
 import java.io.ByteArrayOutputStream
 import java.io.File
 
-class Ijk(private val registry: PluginRegistry.Registrar, private val options: Map<String, Any>) {
+class Ijk(private val registry: FlutterPlugin.FlutterPluginBinding, private val options: Map<String, Any>) {
 
-    private val textureEntry = registry.textures().createSurfaceTexture()
+    private val textureEntry = registry.textureRegistry.createSurfaceTexture()
     val id: Long
         get() = textureEntry.id()
 
     val mediaPlayer: IjkMediaPlayer = IjkMediaPlayer()
     private val textureMediaPlayer: TextureMediaPlayer
 
-    private val methodChannel: MethodChannel = MethodChannel(registry.messenger(), "top.kikt/ijkplayer/$id")
+    private val methodChannel: MethodChannel = MethodChannel(registry.binaryMessenger, "top.kikt/ijkplayer/$id")
 
     private val notifyChannel: NotifyChannel = NotifyChannel(registry, id, this)
 
@@ -120,7 +120,7 @@ class Ijk(private val registry: PluginRegistry.Registrar, private val options: M
     }
 
     private val appContext: Context
-        get() = registry.activity().application
+        get() = registry.applicationContext
 
     private fun configOptions() {
         // see https://www.jianshu.com/p/843c86a9e9ad
@@ -245,13 +245,13 @@ class Ijk(private val registry: PluginRegistry.Registrar, private val options: M
             }
             val asset =
                     if (`package` == null) {
-                        registry.lookupKeyForAsset(name)
+                        registry.flutterAssets.getAssetFilePathByName(name)
                     } else {
-                        registry.lookupKeyForAsset(name, `package`)
+                        registry.flutterAssets.getAssetFilePathByName(name, `package`)
                     }
-            val assetManager = registry.context().assets
+            val assetManager = registry.applicationContext.assets
             val input = assetManager.open(asset)
-            val cacheDir = registry.context().cacheDir.absoluteFile.path
+            val cacheDir = registry.applicationContext.cacheDir.absoluteFile.path
 
             val fileName = Base64.encodeToString(asset.toByteArray(), Base64.DEFAULT)
             val file = File(cacheDir, fileName)

@@ -3,18 +3,20 @@ package top.kikt.ijkplayer
 import android.content.Context
 import android.media.AudioManager
 import android.view.WindowManager
+import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 
 /**
  * IjkplayerPlugin
  */
-class IjkplayerPlugin(private val registrar: Registrar) : MethodCallHandler {
+class IjkplayerPlugin() : FlutterPlugin,MethodCallHandler, ActivityAware {
     
     override fun onMethodCall(call: MethodCall, result: Result) {
         IjkMediaPlayer.loadLibrariesOnce(null)
@@ -85,7 +87,7 @@ class IjkplayerPlugin(private val registrar: Registrar) : MethodCallHandler {
     }
     
     private fun setStatusBar(show: Boolean) {
-        val window = registrar.activity()?.window ?: return
+        val window = registrar.activity?.window ?: return
         if (show) {
             window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -127,17 +129,17 @@ class IjkplayerPlugin(private val registrar: Registrar) : MethodCallHandler {
     }
     
     private val audioManager: AudioManager
-        get() = registrar.activity().getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        get() = registrar.activity.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     
     private fun setBrightness(brightness: Float) {
-        val window = registrar.activity().window
+        val window = registrar.activity.window
         val lp = window.attributes
         lp.screenBrightness = brightness
         window.attributes = lp
     }
     
     private fun getBrightness(): Float {
-        val window = registrar.activity().window
+        val window = registrar.activity.window
         val lp = window.attributes
         return lp.screenBrightness
     }
@@ -152,15 +154,40 @@ class IjkplayerPlugin(private val registrar: Registrar) : MethodCallHandler {
     
     companion object {
         lateinit var manager: IjkManager
-        
-        /**
-         * Plugin registration.
-         */
-        @JvmStatic
-        fun registerWith(registrar: Registrar) {
-            val channel = MethodChannel(registrar.messenger(), "top.kikt/ijkplayer")
-            channel.setMethodCallHandler(IjkplayerPlugin(registrar))
-            manager = IjkManager(registrar)
-        }
+        lateinit var channel: MethodChannel
+        lateinit var registrar: ActivityPluginBinding
+
+//        /**
+//         * Plugin registration.
+//         */
+//        @JvmStatic
+//        fun registerWith(registrar: Registrar) {
+//            val channel = MethodChannel(registrar.messenger(), "top.kikt/ijkplayer")
+//            channel.setMethodCallHandler(IjkplayerPlugin())
+//            manager = IjkManager(registrar)
+//        }
+    }
+
+    override fun onAttachedToEngine(p0: FlutterPlugin.FlutterPluginBinding) {
+        channel = MethodChannel(p0.binaryMessenger, "top.kikt/ijkplayer")
+        channel.setMethodCallHandler(this)
+        manager = IjkManager(p0)
+    }
+
+    override fun onDetachedFromEngine(p0: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
+    }
+
+    override fun onAttachedToActivity(p0: ActivityPluginBinding) {
+        registrar = p0
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+    }
+
+    override fun onReattachedToActivityForConfigChanges(p0: ActivityPluginBinding) {
+    }
+
+    override fun onDetachedFromActivity() {
     }
 }
