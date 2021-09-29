@@ -173,7 +173,7 @@ class IjkMediaController
 
   /// dispose last textureId resource
   Future<void> _initDataSource(bool autoPlay) async {
-    autoPlay ??= false;
+    // autoPlay ??= false;
 
     var autoPlayValue = autoPlay ? 1 : 0;
     addIjkPlayerOptions([

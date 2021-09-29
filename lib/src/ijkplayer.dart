@@ -61,7 +61,7 @@ class IjkPlayerState extends State<IjkPlayer> {
   @override
   void initState() {
     super.initState();
-    controller = widget.mediaController ?? IjkMediaController();
+    controller = widget.mediaController;
   }
 
   @override
@@ -92,12 +92,12 @@ class IjkPlayerState extends State<IjkPlayer> {
             });
       },
     );
-    var controllerWidget = widget.controllerWidgetBuilder?.call(controller);
+    var controllerWidget = widget.controllerWidgetBuilder.call(controller);
     var statusWidget = buildIjkStateWidget();
     Widget stack = Stack(
       children: <Widget>[
         IgnorePointer(child: video),
-        controllerWidget!,
+        controllerWidget,
         statusWidget,
       ],
     );
@@ -109,7 +109,7 @@ class IjkPlayerState extends State<IjkPlayer> {
   }
 
   Widget _buildTexture(int? id, VideoInfo? info) {
-    if (widget?.textureBuilder != null) {
+    if (widget.textureBuilder != null) {
       var texture = widget.textureBuilder.call(context, controller, info);
       return _IjkPlayerWrapper(
         child: texture,
@@ -142,8 +142,7 @@ class IjkPlayerState extends State<IjkPlayer> {
       stream: controller!.ijkStatusStream,
       builder: (BuildContext context, snapshot) {
         return widget.statusWidgetBuilder
-                ?.call(context, controller, snapshot.data) ??
-            Container();
+                .call(context, controller, snapshot.data);
       },
     );
   }

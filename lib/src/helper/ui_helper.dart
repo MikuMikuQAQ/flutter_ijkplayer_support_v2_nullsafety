@@ -7,7 +7,7 @@ class UIHelper {
       return null;
     }
 
-    var globalOffset = renderObject?.localToGlobal(Offset.zero);
+    var globalOffset = renderObject.localToGlobal(Offset.zero);
 
     if (globalOffset == null) {
       return null;

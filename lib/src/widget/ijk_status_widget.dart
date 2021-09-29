@@ -22,7 +22,7 @@ class IjkStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var statusBuilder =
-        this.statusWidgetBuilder ?? IjkStatusWidget.buildStatusWidget;
+        this.statusWidgetBuilder;
     return StreamBuilder<IjkStatus>(
       initialData: controller!.ijkStatus,
       stream: controller!.ijkStatusStream,

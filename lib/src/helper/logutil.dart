@@ -5,23 +5,23 @@ class LogUtils {
   LogUtils._();
 
   static void verbose(Object msg) {
-    log("${msg?.toString()}", LogLevel.verbose);
+    log("${msg.toString()}", LogLevel.verbose);
   }
 
   static void debug(Object msg) {
-    log("${msg?.toString()}", LogLevel.debug);
+    log("${msg.toString()}", LogLevel.debug);
   }
 
   static void info(Object msg) {
-    log("${msg?.toString()}", LogLevel.info);
+    log("${msg.toString()}", LogLevel.info);
   }
 
   static void warning(Object msg) {
-    log("${msg?.toString()}", LogLevel.warning);
+    log("${msg.toString()}", LogLevel.warning);
   }
 
   static void error(Object msg) {
-    log("${msg?.toString()}", LogLevel.error);
+    log("${msg.toString()}", LogLevel.error);
   }
 
   static void log(Object msg, LogLevel level) {

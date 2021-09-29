@@ -55,7 +55,7 @@ class IjkManager {
 
   static setLandScape() async {
     if (Platform.isAndroid) {
-      await SystemChrome.setEnabledSystemUIOverlays([]);
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
       await SystemChrome.setPreferredOrientations(
         [
           DeviceOrientation.landscapeLeft,
@@ -86,7 +86,7 @@ class IjkManager {
   }
 
   static showSystemOverlay() {
-    SystemChrome.setEnabledSystemUIOverlays(const [
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays:const [
       SystemUiOverlay.top,
       SystemUiOverlay.bottom,
     ]);
