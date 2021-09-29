@@ -15,7 +15,7 @@ class DialogRoute<T> extends PageRoute<T> {
     this.barrierLabel = "full",
     this.maintainState = true,
     this.transitionDuration = const Duration(milliseconds: 300),
-    @required this.builder,
+    required this.builder,
   }) : assert(barrierColor != Colors.transparent,
             "The barrierColor must not be transparent.");
 
@@ -27,21 +27,21 @@ class DialogRoute<T> extends PageRoute<T> {
 }
 
 class FullScreenRoute<T> extends DialogRoute<T> {
-  FullScreenRoute({WidgetBuilder builder})
+  FullScreenRoute({WidgetBuilder? builder})
       : super(builder: (ctx, a, s) => fullScreenBuilder(ctx, builder, a, s));
 
   static Widget fullScreenBuilder(
     BuildContext context,
-    WidgetBuilder builder,
+    WidgetBuilder? builder,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
     return AnimatedBuilder(
       animation: animation,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return Opacity(
           opacity: animation.value,
-          child: builder(context),
+          child: builder!(context),
         );
       },
     );

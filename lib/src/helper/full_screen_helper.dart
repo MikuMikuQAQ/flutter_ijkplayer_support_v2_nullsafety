@@ -7,7 +7,7 @@ class FullScreenHelper {
 
     if (info.width == 0 || info.height == 0) {
       axis = Axis.horizontal;
-    } else if (info.width > info.height) {
+    } else if (info.width! > info.height!) {
       if (info.degree == 90 || info.degree == 270) {
         axis = Axis.vertical;
       } else {

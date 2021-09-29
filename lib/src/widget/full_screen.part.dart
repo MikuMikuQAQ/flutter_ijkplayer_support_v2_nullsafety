@@ -8,10 +8,10 @@ enum FullScreenType {
 showFullScreenIJKPlayer(
   BuildContext context,
   IjkMediaController controller, {
-  IJKControllerWidgetBuilder fullscreenControllerWidgetBuilder,
+  IJKControllerWidgetBuilder? fullscreenControllerWidgetBuilder,
   FullScreenType fullScreenType = FullScreenType.rotateBox,
   bool hideSystemBar = true,
-  void Function(bool enter) onFullscreen,
+  void Function(bool enter)? onFullscreen,
 }) async {
   if (fullScreenType == FullScreenType.rotateBox) {
     _showFullScreenWithRotateBox(
@@ -36,9 +36,9 @@ showFullScreenIJKPlayer(
 _showFullScreenWithRotateScreen(
   BuildContext context,
   IjkMediaController controller,
-  IJKControllerWidgetBuilder fullscreenControllerWidgetBuilder, {
-  bool hideSystemBar,
-  void Function(bool enter) onFullscreen,
+  IJKControllerWidgetBuilder? fullscreenControllerWidgetBuilder, {
+  required bool hideSystemBar,
+  void Function(bool enter)? onFullscreen,
 }) async {
   if (hideSystemBar) {
     IjkManager.showStatusBar(false);
@@ -50,7 +50,7 @@ _showFullScreenWithRotateScreen(
         return IjkPlayer(
           mediaController: controller,
           controllerWidgetBuilder: (ctl) =>
-              fullscreenControllerWidgetBuilder(ctl),
+              fullscreenControllerWidgetBuilder!(ctl),
         );
       },
     ),
@@ -71,7 +71,7 @@ _showFullScreenWithRotateScreen(
 
   if (info.width == 0 || info.height == 0) {
     axis = Axis.horizontal;
-  } else if (info.width > info.height) {
+  } else if (info.width! > info.height!) {
     if (info.degree == 90 || info.degree == 270) {
       axis = Axis.vertical;
     } else {
@@ -95,9 +95,9 @@ _showFullScreenWithRotateScreen(
 _showFullScreenWithRotateBox(
   BuildContext context,
   IjkMediaController controller, {
-  IJKControllerWidgetBuilder fullscreenControllerWidgetBuilder,
-  bool hideSystemBar,
-  void Function(bool enter) onFullscreen,
+  IJKControllerWidgetBuilder? fullscreenControllerWidgetBuilder,
+  required bool hideSystemBar,
+  void Function(bool enter)? onFullscreen,
 }) async {
   var info = await controller.getVideoInfo();
 
@@ -105,7 +105,7 @@ _showFullScreenWithRotateBox(
 
   if (info.width == 0 || info.height == 0) {
     axis = Axis.horizontal;
-  } else if (info.width > info.height) {
+  } else if (info.width! > info.height!) {
     if (info.degree == 90 || info.degree == 270) {
       axis = Axis.vertical;
     } else {
@@ -154,7 +154,7 @@ _showFullScreenWithRotateBox(
             child: IjkPlayer(
               mediaController: controller,
               controllerWidgetBuilder: (ctl) =>
-                  fullscreenControllerWidgetBuilder(ctl),
+                  fullscreenControllerWidgetBuilder!(ctl),
             ),
           ),
         );

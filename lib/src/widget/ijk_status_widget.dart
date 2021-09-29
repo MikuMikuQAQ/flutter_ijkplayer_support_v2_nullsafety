@@ -5,13 +5,13 @@ import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 /// Construct a Widget based on the current status.
 typedef Widget StatusWidgetBuilder(
   BuildContext context,
-  IjkMediaController controller,
-  IjkStatus status,
+  IjkMediaController? controller,
+  IjkStatus? status,
 );
 
 /// Default IjkStatusWidget
 class IjkStatusWidget extends StatelessWidget {
-  final IjkMediaController controller;
+  final IjkMediaController? controller;
   final StatusWidgetBuilder statusWidgetBuilder;
 
   const IjkStatusWidget({
@@ -24,8 +24,8 @@ class IjkStatusWidget extends StatelessWidget {
     var statusBuilder =
         this.statusWidgetBuilder ?? IjkStatusWidget.buildStatusWidget;
     return StreamBuilder<IjkStatus>(
-      initialData: controller.ijkStatus,
-      stream: controller.ijkStatusStream,
+      initialData: controller!.ijkStatus,
+      stream: controller!.ijkStatusStream,
       builder: (BuildContext context, snapshot) {
         return statusBuilder.call(context, controller, snapshot.data);
       },
@@ -34,8 +34,8 @@ class IjkStatusWidget extends StatelessWidget {
 
   static Widget buildStatusWidget(
     BuildContext context,
-    IjkMediaController controller,
-    IjkStatus status,
+    IjkMediaController? controller,
+    IjkStatus? status,
   ) {
     if (status == IjkStatus.noDatasource) {
       return _buildNothing(context);
@@ -45,13 +45,13 @@ class IjkStatusWidget extends StatelessWidget {
       return _buildProgressWidget(context);
     }
     if (status == IjkStatus.prepared) {
-      return _buildPreparedWidget(context, controller);
+      return _buildPreparedWidget(context, controller!);
     }
     if (status == IjkStatus.error) {
       return _buildFailWidget(context);
     }
     if (status == IjkStatus.pause) {
-      return _buildCenterIconButton(Icons.play_arrow, controller.play);
+      return _buildCenterIconButton(Icons.play_arrow, controller!.play);
     }
     if (status == IjkStatus.complete) {
       return _buildCenterIconButton(Icons.replay, () async {
@@ -92,7 +92,7 @@ Widget _buildCenterIconButton(IconData iconData, Function onTap) {
         iconSize: 30,
         color: Colors.black,
         icon: Icon(iconData),
-        onPressed: onTap,
+        onPressed: onTap as void Function()?,
       ),
     ),
   );

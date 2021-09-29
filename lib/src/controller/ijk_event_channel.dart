@@ -1,17 +1,17 @@
 part of '../ijkplayer.dart';
 
 class _IJKEventChannel {
-  int get textureId => controller?.textureId;
+  int? get textureId => controller?.textureId;
 
-  IjkMediaController controller;
+  IjkMediaController? controller;
 
   _IJKEventChannel(this.controller);
 
-  MethodChannel channel;
+  late MethodChannel channel;
 
   String get channelName => "top.kikt/ijkplayer/event/$textureId";
 
-  Completer _prepareCompleter;
+  Completer? _prepareCompleter;
 
   bool _isDisposed = false;
 
@@ -45,9 +45,9 @@ class _IJKEventChannel {
         onRotateChanged(call);
         break;
       case "error":
-        var info = await controller.getVideoInfo();
+        var info = await controller!.getVideoInfo();
         _onPlayFinish(info);
-        int errorValue = call.arguments;
+        int? errorValue = call.arguments;
         _onPlayError(errorValue);
         break;
       default:
@@ -68,18 +68,18 @@ class _IJKEventChannel {
   }
 
   void onPlayStateChange(VideoInfo info) {
-    controller.isPlaying = info.isPlaying;
+    controller!.isPlaying = info.isPlaying;
   }
 
   void onPrepare(VideoInfo info) {
-    controller.isPlaying = info.isPlaying;
+    controller!.isPlaying = info.isPlaying;
     _prepareCompleter?.complete();
     _prepareCompleter = null;
   }
 
   Future<void> waitPrepare() {
     _prepareCompleter = Completer();
-    return _prepareCompleter.future;
+    return _prepareCompleter!.future;
   }
 
   Future<void> autoPlay(IjkMediaController ijkMediaController) async {
@@ -105,9 +105,9 @@ class _IJKEventChannel {
     LogUtils.debug("onRotateChanged , info = $info");
   }
 
-  void _onPlayError(int errorValue) {
+  void _onPlayError(int? errorValue) {
     LogUtils.warning("play error , errorValue : $errorValue");
-    controller._onError(errorValue);
+    controller!._onError(errorValue);
   }
 }
 

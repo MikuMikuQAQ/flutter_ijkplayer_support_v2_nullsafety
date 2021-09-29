@@ -6,11 +6,11 @@ class IjkMediaPlayerManager {
   final ijkPlayerList = <IjkMediaController>[];
   final ijkPlayerMap = <int, IjkMediaController>{};
 
-  static IjkMediaPlayerManager _instance;
+  static IjkMediaPlayerManager? _instance;
 
   factory IjkMediaPlayerManager() {
     _instance ??= IjkMediaPlayerManager._();
-    return _instance;
+    return _instance!;
   }
 
   IjkMediaPlayerManager._();
@@ -28,7 +28,7 @@ class IjkMediaPlayerManager {
     ijkPlayerMap.remove(ijkMediaController.index);
   }
 
-  IjkMediaController findControllerWithIndex(int ijkPlayerIndex) {
+  IjkMediaController? findControllerWithIndex(int ijkPlayerIndex) {
     return ijkPlayerMap[ijkPlayerIndex];
   }
 

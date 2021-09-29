@@ -3,8 +3,8 @@ part of '../ijkplayer.dart';
 /// about channel
 MethodChannel _globalChannel = MethodChannel("top.kikt/ijkplayer");
 
-Future<int> _createIjk({
-  List<IjkOption> options,
+Future<int?> _createIjk({
+  required List<IjkOption> options,
 }) async {
   List<Map<String, dynamic>> _optionList = [];
 
@@ -12,7 +12,7 @@ Future<int> _createIjk({
     _optionList.add(option.toMap());
   }
 
-  int id = await _globalChannel.invokeMethod(
+  int? id = await _globalChannel.invokeMethod(
     "create",
     <String, dynamic>{
       "options": _optionList,
@@ -25,7 +25,7 @@ class _IjkPlugin {
   MethodChannel get channel => MethodChannel("top.kikt/ijkplayer/$textureId");
 
   /// texture id
-  int textureId;
+  int? textureId;
 
   bool _isDisposed = false;
 
@@ -63,7 +63,7 @@ class _IjkPlugin {
   }
 
   Future<void> setNetworkDataSource(
-      {String uri, Map<String, String> headers = const {}}) async {
+      {String? uri, Map<String, String>? headers = const {}}) async {
     if (isDisposed) {
       return;
     }
@@ -74,7 +74,7 @@ class _IjkPlugin {
     });
   }
 
-  Future<void> setAssetDataSource(String name, String package) async {
+  Future<void> setAssetDataSource(String? name, String? package) async {
     if (isDisposed) {
       return;
     }
@@ -101,7 +101,7 @@ class _IjkPlugin {
     LogUtils.debug("id = $textureId file path = $path");
   }
 
-  Future<Map<String, dynamic>> getInfo() async {
+  Future<Map<String, dynamic>?> getInfo() async {
     if (isDisposed) {
       return null;
     }
@@ -136,7 +136,7 @@ class _IjkPlugin {
     });
   }
 
-  Future<Uint8List> screenShot() async {
+  Future<Uint8List?> screenShot() async {
     if (isDisposed) {
       return null;
     }

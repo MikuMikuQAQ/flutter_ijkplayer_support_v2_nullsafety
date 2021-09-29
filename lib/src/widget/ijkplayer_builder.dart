@@ -4,15 +4,15 @@ import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 /// Player builder, Inheritance of this class allows you to implement your own player
 typedef Widget IJKTextureBuilder(
   BuildContext context,
-  IjkMediaController controller,
-  VideoInfo info,
+  IjkMediaController? controller,
+  VideoInfo? info,
 );
 
 /// default IJKPlayer method
 Widget buildDefaultIjkPlayer(
   BuildContext context,
-  IjkMediaController controller,
-  VideoInfo info,
+  IjkMediaController? controller,
+  VideoInfo? info,
 ) {
   return DefaultIJKPlayerWrapper(
     controller: controller,
@@ -24,11 +24,11 @@ Widget buildDefaultIjkPlayer(
 ///
 /// This widget solves the aspect ratio problem in video direction.
 class DefaultIJKPlayerWrapper extends StatelessWidget {
-  final IjkMediaController controller;
-  final VideoInfo info;
+  final IjkMediaController? controller;
+  final VideoInfo? info;
 
   const DefaultIJKPlayerWrapper({
-    Key key,
+    Key? key,
     this.controller,
     this.info,
   }) : super(key: key);
@@ -37,7 +37,7 @@ class DefaultIJKPlayerWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     double ratio = info?.ratio ?? 1280 / 720;
 
-    var id = controller.textureId;
+    var id = controller!.textureId;
 
     if (id == null) {
       return AspectRatio(
@@ -55,7 +55,7 @@ class DefaultIJKPlayerWrapper extends StatelessWidget {
       ),
     );
 
-    if (!controller.autoRotate) {
+    if (!controller!.autoRotate) {
       return w;
     }
 

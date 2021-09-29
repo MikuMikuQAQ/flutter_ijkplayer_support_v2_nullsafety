@@ -21,15 +21,15 @@ class IjkManager {
   }
 
   /// get system volume
-  static Future<int> getSystemVolume() async {
+  static Future<int?> getSystemVolume() async {
     return _globalChannel.invokeMethod("getSystemVolume");
   }
 
-  static Future<int> systemVolumeUp() async {
+  static Future<int?> systemVolumeUp() async {
     return _globalChannel.invokeMethod("volumeUp");
   }
 
-  static Future<int> systemVolumeDown() async {
+  static Future<int?> systemVolumeDown() async {
     return _globalChannel.invokeMethod("volumeDown");
   }
 
@@ -45,7 +45,7 @@ class IjkManager {
     });
   }
 
-  static Future<double> getSystemBrightness() async {
+  static Future<double?> getSystemBrightness() async {
     return _globalChannel.invokeMethod("getSystemBrightness");
   }
 

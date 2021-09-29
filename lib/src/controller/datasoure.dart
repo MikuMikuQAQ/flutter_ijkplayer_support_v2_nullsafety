@@ -3,17 +3,17 @@ part of '../ijkplayer.dart';
 /// Entity classe for data sources.
 class DataSource {
   /// See [DataSourceType]
-  DataSourceType _type;
+  DataSourceType? _type;
 
-  File _file;
+  late File _file;
 
-  String _assetName;
+  String? _assetName;
 
-  String _assetPackage;
+  String? _assetPackage;
 
-  String _netWorkUrl;
+  String? _netWorkUrl;
 
-  Map<String, String> _headers;
+  Map<String, String>? _headers;
 
   DataSource._();
 
@@ -36,7 +36,7 @@ class DataSource {
   }
 
   /// Create asset data source
-  factory DataSource.asset(String assetName, {String package}) {
+  factory DataSource.asset(String assetName, {String? package}) {
     var ds = DataSource._();
     ds._assetName = assetName;
     ds._assetPackage = package;
